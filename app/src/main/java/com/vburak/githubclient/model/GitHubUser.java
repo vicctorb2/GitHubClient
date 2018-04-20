@@ -1,14 +1,25 @@
 package com.vburak.githubclient.model;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import java.util.Objects;
 
 public class GitHubUser {
 
+    @SerializedName("login")
+    @Expose
     private String username;
-    private int image;
+
+    @SerializedName("avatar_url")
+    @Expose
+    private String image;
+
+    @SerializedName("html_url")
+    @Expose
     private String userAccountLink;
 
-    public GitHubUser(String username, int imageUrl, String userAccountLink) {
+    public GitHubUser(String username, String imageUrl, String userAccountLink) {
         this.username = username;
         this.image = imageUrl;
 
@@ -24,11 +35,11 @@ public class GitHubUser {
         this.username = username;
     }
 
-    public int getImage() {
+    public String getImage() {
         return image;
     }
 
-    public void setImage(int image) {
+    public void setImage(String image) {
         this.image = image;
     }
 

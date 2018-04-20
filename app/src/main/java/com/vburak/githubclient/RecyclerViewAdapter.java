@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
 import com.vburak.githubclient.model.GitHubUser;
 
 import java.util.List;
@@ -27,7 +28,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public CustomViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view;
-        view = LayoutInflater.from(mContext).inflate(R.layout.item_user,parent,false);
+        view = LayoutInflater.from(mContext).inflate(R.layout.item_user, parent, false);
         CustomViewHolder customViewHolder = new CustomViewHolder(view);
         return customViewHolder;
     }
@@ -36,7 +37,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public void onBindViewHolder(@NonNull CustomViewHolder holder, int position) {
         holder.usernameTV.setText(mData.get(position).getUsername());
         holder.accountLinkTV.setText(mData.get(position).getUserAccountLink());
-        holder.img.setImageResource(mData.get(position).getImage());
+        Picasso.with(mContext).load(mData.get(position).getImage()).placeholder(R.drawable.vicctorb).into(holder.img);
     }
 
     @Override
@@ -44,11 +45,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         return mData.size();
     }
 
-    public static class CustomViewHolder extends RecyclerView.ViewHolder{
+    public static class CustomViewHolder extends RecyclerView.ViewHolder {
 
         private TextView usernameTV;
         private TextView accountLinkTV;
         private ImageView img;
+
         public CustomViewHolder(View itemView) {
 
             super(itemView);
