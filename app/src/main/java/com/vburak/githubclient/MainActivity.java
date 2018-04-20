@@ -20,7 +20,6 @@ public class MainActivity extends AppCompatActivity {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new UsersListFragment(),"Users list");
         adapter.addFragment(new YourProfileFragment(),"Your profile");
-
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
 
