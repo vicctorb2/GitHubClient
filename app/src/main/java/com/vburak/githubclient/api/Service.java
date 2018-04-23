@@ -10,4 +10,7 @@ import retrofit2.http.Query;
 public interface Service {
     @GET("/search/users?q=type:user")
     Call<GitHubUserResponse> getUsers(@Query("page") int page, @Query("per_page") int per_page);
+
+    @GET("/search/users")
+    Call<GitHubUserResponse> getUsersFromSearch(@Query("q") String name);
 }

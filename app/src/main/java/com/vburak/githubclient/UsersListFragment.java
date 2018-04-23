@@ -28,20 +28,20 @@ public class UsersListFragment extends Fragment {
     View view;
     private static RecyclerView recyclerView;
     private static List<GitHubUser> gitHubUsersList;
+    private static List<GitHubUser> filteredUsersList;
+    private static List<GitHubUser> lastSavedList;
     private GitHubUser user;
     private Button loadMoreButton;
+    static Service apiService;
     private static int currentJsonResponsePage = 1;
     private static int usersPerPage = 50;
     static RecyclerViewAdapter recyclerViewAdapter;
+    static RecyclerViewAdapter filteredViewAdapter;
 
-    public int getCurrentJsonResponsePage() {
-        return currentJsonResponsePage;
-    }
 
     public UsersListFragment() {
-
-
     }
+
 
     @Nullable
     @Override
@@ -55,17 +55,22 @@ public class UsersListFragment extends Fragment {
 
     public static void loadJSONfromAPI() {
         try {
-            Service apiService = Client.getClient().create(Service.class);
+            apiService = Client.getClient().create(Service.class);
             Call<GitHubUserResponse> call = apiService.getUsers(currentJsonResponsePage, usersPerPage);
             call.enqueue(new Callback<GitHubUserResponse>() {
                 @Override
                 public void onResponse(Call<GitHubUserResponse> call, Response<GitHubUserResponse> response) {
-                    List<GitHubUser> responseItemsList = new ArrayList<>();
-                    responseItemsList = response.body().getItems();
-                    gitHubUsersList.addAll(responseItemsList);
-                    recyclerView.setAdapter(recyclerViewAdapter);
-                    recyclerView.scrollToPosition(gitHubUsersList.size() - responseItemsList.size() - 1);
-                    currentJsonResponsePage++;
+                    try {
+                        List<GitHubUser> responseItemsList = new ArrayList<>();
+                        responseItemsList.addAll(response.body().getItems());
+                        gitHubUsersList.addAll(responseItemsList);
+                        recyclerView.setAdapter(recyclerViewAdapter);
+                        recyclerView.scrollToPosition(gitHubUsersList.size() - responseItemsList.size() - 1);
+                        currentJsonResponsePage++;
+                    } catch (NullPointerException ex) {
+                        ex.printStackTrace();
+                    }
+
                 }
 
                 @Override
@@ -79,10 +84,43 @@ public class UsersListFragment extends Fragment {
 
     }
 
+    public static void searchUser(final String username, boolean flag) {
+        if (flag) {
+            try {
+                apiService = Client.getClient().create(Service.class);
+                Call<GitHubUserResponse> call = apiService.getUsersFromSearch(username);
+                call.enqueue(new Callback<GitHubUserResponse>() {
+                    @Override
+                    public void onResponse(Call<GitHubUserResponse> call, Response<GitHubUserResponse> response) {
+                        try {
+                            List<GitHubUser> filteredList = new ArrayList<>();
+                            filteredList = response.body().getItems();
+                            filteredUsersList.clear();
+                            filteredUsersList.addAll(filteredList);
+                            recyclerView.setAdapter(filteredViewAdapter);
+                        } catch (NullPointerException ex) {
+                            ex.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<GitHubUserResponse> call, Throwable t) {
+                        Log.d("Error", t.getMessage());
+                    }
+                });
+            } catch (Exception ex) {
+                Log.e("ERROR", ex.getMessage());
+            }
+        } else {
+            recyclerView.setAdapter(recyclerViewAdapter);
+        }
+    }
 
     private void initUI() {
         gitHubUsersList = new ArrayList<>();
+        filteredUsersList = new ArrayList<>();
         recyclerViewAdapter = new RecyclerViewAdapter(getContext(), gitHubUsersList);
+        filteredViewAdapter = new RecyclerViewAdapter(getContext(), filteredUsersList);
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view_id);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
