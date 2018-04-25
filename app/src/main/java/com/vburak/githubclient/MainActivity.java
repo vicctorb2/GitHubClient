@@ -1,5 +1,6 @@
 package com.vburak.githubclient;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.MenuItemCompat;
@@ -23,7 +24,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.vburak.githubclient.UsersListFragment.apiService;
-import static com.vburak.githubclient.UsersListFragment.authHeader;
 import static com.vburak.githubclient.UsersListFragment.filteredUsersList;
 import static com.vburak.githubclient.UsersListFragment.filteredViewAdapter;
 import static com.vburak.githubclient.UsersListFragment.recyclerView;
@@ -35,12 +35,15 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     private ViewPager viewPager;
     private Toolbar toolbar;
     public SearchView searchView;
+    static String authHeader;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Intent intent = new Intent(this,AuthActivity.class);
+        startActivityForResult(intent,1);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         tabLayout = (TabLayout) findViewById(R.id.tablayout_id);
         viewPager = (ViewPager) findViewById(R.id.viewpager_id);
@@ -50,6 +53,13 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
         setSupportActionBar(toolbar);
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        this.authHeader = data.getStringExtra("authHeader");
 
     }
 
