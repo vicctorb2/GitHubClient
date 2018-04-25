@@ -23,8 +23,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     UsersListFragment usersListFragment = new UsersListFragment();
 
     public RecyclerViewAdapter(Context mContext, List<GitHubUser> mData) {
-        this.mContext = mContext;
-        this.mData = mData;
+        if(mData==null){
+            mData.add(new GitHubUser("vicctorb2","https://avatars2.githubusercontent.com/u/17727453?v=4","https://github.com/vicctorb2"));
+            this.mContext = mContext;
+        }
+        else{
+            this.mData = mData;
+            this.mContext=mContext;
+        }
     }
 
     @NonNull

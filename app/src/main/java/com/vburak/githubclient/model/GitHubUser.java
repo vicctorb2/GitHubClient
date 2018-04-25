@@ -22,7 +22,6 @@ public class GitHubUser {
     public GitHubUser(String username, String imageUrl, String userAccountLink) {
         this.username = username;
         this.image = imageUrl;
-
         this.userAccountLink = userAccountLink;
     }
 
