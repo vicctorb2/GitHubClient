@@ -50,7 +50,7 @@
         android:layout_gravity="center"
         android:columnCount="3"
         android:orientation="horizontal"
-        android:paddingTop="15dp">
+        android:paddingTop="10dp">
         <TextView
             android:text="@string/gists_count_text"
             android:textSize="15sp"
@@ -64,7 +64,6 @@
             android:textStyle="bold"
             android:paddingHorizontal="15dp"
             android:paddingVertical="3dp"
-
             />
         <TextView
             android:text="@string/owned_repos_text"
@@ -74,41 +73,34 @@
             android:paddingVertical="3dp"
             />
         <TextView
-            android:text="@string/_45"
+            android:text="45"
             android:layout_gravity="center"
             android:textSize="25sp"
             android:textStyle="bold"
             android:paddingHorizontal="15dp"
             android:paddingVertical="3dp"
-            android:id="@+id/gists_count_id"
             />
         <TextView
-            android:text="@string/_2"
+            android:text="2"
             android:layout_gravity="center"
             android:textSize="25sp"
             android:textStyle="bold"
             android:paddingHorizontal="15dp"
             android:paddingVertical="3dp"
-            android:id="@+id/private_count_id"
             />
         <TextView
-            android:text="@string/_52"
+            android:text="52"
             android:layout_gravity="center"
             android:textSize="25sp"
             android:textStyle="bold"
             android:paddingHorizontal="15dp"
             android:paddingVertical="3dp"
-            android:id="@+id/owned_count_id"
             />
     </GridLayout>
 
-    <Button
-        android:layout_marginTop="20dp"
-        android:layout_marginHorizontal="25dp"
-        android:textSize="15sp"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/your_profile_recycler_view_id"
         android:layout_width="match_parent"
-        android:layout_height="75dp"
-        android:text="@string/go_to_repos_list_text"
-        android:id="@+id/go_to_repos_button"/>
+        android:layout_height="match_parent" />
 
 </LinearLayout>

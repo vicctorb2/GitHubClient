@@ -58,7 +58,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         } else {
             holder.usernameTV.setText(mData.get(position).getUsername());
             holder.accountLinkTV.setText(mData.get(position).getUserAccountLink());
-            Picasso.with(mContext).load(mData.get(position).getImage()).placeholder(R.drawable.vicctorb).into(holder.img);
+            Picasso.with(mContext).load(mData.get(position).getImage()).placeholder(R.drawable.logo).into(holder.img);
         }
     }
 

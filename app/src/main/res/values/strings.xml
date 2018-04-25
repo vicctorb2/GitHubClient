@@ -1,6 +1,17 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">GitHub Client</string>
     <string name="username_text">Username</string>
     <string name="password_text">Password</string>
     <string name="button_sign_in">Sign in</string>
+    <string name="author_name">Victor Buryak</string>
+    <string name="nickname">username</string>
+    <string name="standart_email">e-mail is not setted yet</string>
+    <string name="standart_company">company name is not setted</string>
+    <string name="gists_count_text">Private gists</string>
+    <string name="private_repos_text">Private repos</string>
+    <string name="owned_repos_text">Owned repos</string>
+    <string name="_45">45</string>
+    <string name="_2">2</string>
+    <string name="_52">52</string>
+    <string name="go_to_repos_list_text">Go to repositories</string>
 </resources>

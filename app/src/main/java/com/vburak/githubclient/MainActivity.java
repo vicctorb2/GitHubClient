@@ -8,16 +8,14 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.util.Base64;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.vburak.githubclient.api.Client;
 import com.vburak.githubclient.api.Service;
+import com.vburak.githubclient.model.GitHubUser;
 import com.vburak.githubclient.model.GitHubUserResponse;
-
-import java.io.IOException;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -36,37 +34,36 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     private Toolbar toolbar;
     public SearchView searchView;
     static String authHeader;
+    static String username;
+    static GitHubUser mainUser;
 
+    public static GitHubUser getMainUser() {
+        return mainUser;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Intent intent = new Intent(this,AuthActivity.class);
-        startActivityForResult(intent,1);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        tabLayout = (TabLayout) findViewById(R.id.tablayout_id);
-        viewPager = (ViewPager) findViewById(R.id.viewpager_id);
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new UsersListFragment(), "Users list");
-        adapter.addFragment(new YourProfileFragment(), "Your profile");
-        viewPager.setAdapter(adapter);
-        tabLayout.setupWithViewPager(viewPager);
-        setSupportActionBar(toolbar);
-
+        Intent intent = new Intent(this, AuthActivity.class);
+        startActivityForResult(intent, 1);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        this.authHeader = data.getStringExtra("authHeader");
-
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
+        authHeader = data.getStringExtra("authHeader");
+        username = data.getStringExtra("username");
+        mainUser = data.getParcelableExtra("mainUser");
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        tabLayout = (TabLayout) findViewById(R.id.tablayout_id);
+        viewPager = (ViewPager) findViewById(R.id.viewpager_id);
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        adapter.addFragment(new YourProfileFragment(), "Your profile");
+        adapter.addFragment(new UsersListFragment(), "Users list");
+        viewPager.setAdapter(adapter);
+        tabLayout.setupWithViewPager(viewPager);
+        setSupportActionBar(toolbar);
     }
 
     @Override
@@ -91,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
             return false;
         } else {
             apiService = Client.getClient().create(Service.class);
-            Call<GitHubUserResponse> call = apiService.getUsersFromSearch(authHeader,newText);
+            Call<GitHubUserResponse> call = apiService.getUsersFromSearch(authHeader, newText);
             call.enqueue(new Callback<GitHubUserResponse>() {
                 @Override
                 public void onResponse(Call<GitHubUserResponse> call, Response<GitHubUserResponse> response) {
@@ -100,10 +97,11 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
                             filteredUsersList.clear();
                             filteredUsersList.addAll(response.body().getItems());
                             recyclerView.swapAdapter(filteredViewAdapter, true);
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Github API search rate limit (30 per minute). Please try again later.", Toast.LENGTH_LONG).show();
                         }
                     } catch (NullPointerException ex) {
                         ex.printStackTrace();
-                        Toast.makeText(getApplicationContext(),"Search API rate limit!",Toast.LENGTH_SHORT).show();
                         recyclerView.swapAdapter(recyclerViewAdapter, true);
                     }
                 }

@@ -1,6 +1,7 @@
 package com.vburak.githubclient;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,14 +9,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import com.vburak.githubclient.api.Client;
 import com.vburak.githubclient.api.Service;
 import com.vburak.githubclient.model.GitHubUser;
 import com.vburak.githubclient.model.GitHubUserResponse;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,9 +30,6 @@ public class UsersListFragment extends Fragment {
     protected static RecyclerView recyclerView;
     private static List<GitHubUser> gitHubUsersList;
     protected static List<GitHubUser> filteredUsersList;
-    private static List<GitHubUser> lastSavedList;
-    private GitHubUser user;
-    private Button loadMoreButton;
     static Service apiService;
     private static int currentJsonResponsePage = 1;
     private static int usersPerPage = 50;
@@ -42,13 +38,12 @@ public class UsersListFragment extends Fragment {
 
 
     public UsersListFragment() {
-
     }
 
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable final ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable final ViewGroup container, Bundle savedInstanceState) {
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         view = inflater.inflate(R.layout.userslist_fragment, container, false);
         initUI();
@@ -58,7 +53,7 @@ public class UsersListFragment extends Fragment {
 
     public static void loadJSONfromAPI() {
         apiService = Client.getClient().create(Service.class);
-        Call<GitHubUserResponse> call = apiService.getUsers(authHeader,currentJsonResponsePage, usersPerPage);
+        Call<GitHubUserResponse> call = apiService.getUsers(authHeader, currentJsonResponsePage, usersPerPage);
         call.enqueue(new Callback<GitHubUserResponse>() {
             @Override
             public void onResponse(Call<GitHubUserResponse> call, Response<GitHubUserResponse> response) {
@@ -70,14 +65,9 @@ public class UsersListFragment extends Fragment {
                         recyclerView.scrollToPosition(gitHubUsersList.size() - responseItemsList.size() - 1);
                         currentJsonResponsePage++;
                     }
-                    else{
-                        System.out.println(response.errorBody().string());
-                    }
                 } catch (NullPointerException ex) {
                     ex.printStackTrace();
                     recyclerView.setAdapter(recyclerViewAdapter);
-                } catch (IOException e) {
-                    e.printStackTrace();
                 }
 
             }

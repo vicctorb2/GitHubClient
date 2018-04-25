@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 import com.vburak.githubclient.api.Client;
 import com.vburak.githubclient.api.Service;
-import com.vburak.githubclient.model.Auth;
+import com.vburak.githubclient.model.GitHubUser;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -52,17 +52,19 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
             String base = username + ":" + password;
             final String authHeader = "Basic " + Base64.encodeToString(base.getBytes(), Base64.NO_WRAP);
             apiService = Client.getClient().create(Service.class);
-            Call call = apiService.auth(authHeader);
-            call.enqueue(new Callback<Auth>() {
-
+            Call call = apiService.mainUser(authHeader);
+            call.enqueue(new Callback<GitHubUser>() {
                 @Override
-                public void onResponse(Call<Auth> call, Response<Auth> response) {
+                public void onResponse(Call<GitHubUser> call, Response<GitHubUser> response) {
                     if (response.code() == 200) {
-                        Toast.makeText(getApplicationContext(),"Welcome!",Toast.LENGTH_LONG).show();
+                        GitHubUser mainUser = response.body();
                         Intent intent = new Intent();
                         intent.putExtra("authHeader", authHeader);
+                        intent.putExtra("username", username);
+                        intent.putExtra("mainUser",mainUser);
                         setResult(RESULT_OK, intent);
                         finish();
+                        Toast.makeText(getApplicationContext(),"Welcome!",Toast.LENGTH_LONG).show();
                     }
                     else {
                         Toast.makeText(getApplicationContext(),"Username or password is incorrect!",Toast.LENGTH_LONG).show();
@@ -70,7 +72,7 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
                 }
 
                 @Override
-                public void onFailure(Call<Auth> call, Throwable t) {
+                public void onFailure(Call<GitHubUser> call, Throwable t) {
                     Toast.makeText(getApplicationContext(),"Something went wrong, check you internet connection!",Toast.LENGTH_LONG).show();
                 }
             });
