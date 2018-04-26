@@ -1,4 +1,4 @@
-package com.vburak.githubclient;
+package com.vburak.githubclient.view;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,9 +10,9 @@ import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.vburak.githubclient.R;
 import com.vburak.githubclient.api.Client;
 import com.vburak.githubclient.api.Service;
 import com.vburak.githubclient.model.GitHubUser;
@@ -22,11 +22,11 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.vburak.githubclient.UsersListFragment.apiService;
-import static com.vburak.githubclient.UsersListFragment.filteredUsersList;
-import static com.vburak.githubclient.UsersListFragment.filteredViewAdapter;
-import static com.vburak.githubclient.UsersListFragment.recyclerView;
-import static com.vburak.githubclient.UsersListFragment.recyclerViewAdapter;
+import static com.vburak.githubclient.view.UsersListFragment.apiService;
+import static com.vburak.githubclient.view.UsersListFragment.filteredUsersList;
+import static com.vburak.githubclient.view.UsersListFragment.filteredViewAdapter;
+import static com.vburak.githubclient.view.UsersListFragment.recyclerView;
+import static com.vburak.githubclient.view.UsersListFragment.recyclerViewAdapter;
 
 public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
 

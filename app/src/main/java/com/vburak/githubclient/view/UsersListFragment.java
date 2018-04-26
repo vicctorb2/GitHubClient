@@ -1,4 +1,4 @@
-package com.vburak.githubclient;
+package com.vburak.githubclient.view;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
+import com.vburak.githubclient.R;
 import com.vburak.githubclient.api.Client;
 import com.vburak.githubclient.api.Service;
 import com.vburak.githubclient.model.GitHubUser;
@@ -24,7 +25,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.vburak.githubclient.MainActivity.authHeader;
+import static com.vburak.githubclient.view.MainActivity.authHeader;
 
 public class UsersListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 

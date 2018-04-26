@@ -1,4 +1,4 @@
-package com.vburak.githubclient;
+package com.vburak.githubclient.view;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,9 +10,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
+import com.vburak.githubclient.R;
 import com.vburak.githubclient.model.GitHubUser;
 
-import static com.vburak.githubclient.MainActivity.getMainUser;
+import static com.vburak.githubclient.view.MainActivity.getMainUser;
 
 public class YourProfileFragment extends Fragment {
 

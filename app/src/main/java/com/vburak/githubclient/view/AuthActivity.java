@@ -1,4 +1,4 @@
-package com.vburak.githubclient;
+package com.vburak.githubclient.view;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.vburak.githubclient.R;
 import com.vburak.githubclient.api.Client;
 import com.vburak.githubclient.api.Service;
 import com.vburak.githubclient.model.GitHubUser;

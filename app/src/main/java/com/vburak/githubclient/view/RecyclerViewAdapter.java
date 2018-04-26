@@ -1,4 +1,4 @@
-package com.vburak.githubclient;
+package com.vburak.githubclient.view;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
+import com.vburak.githubclient.R;
 import com.vburak.githubclient.api.Client;
 import com.vburak.githubclient.api.Service;
 import com.vburak.githubclient.model.GitHubUser;
@@ -21,7 +22,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.vburak.githubclient.MainActivity.authHeader;
+import static com.vburak.githubclient.view.MainActivity.authHeader;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.CustomViewHolder> {
 
