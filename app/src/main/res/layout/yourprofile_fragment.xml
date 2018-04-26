@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingBottom="15dp">
 
     <ImageView
         android:id="@+id/your_profile_image"
         android:layout_width="match_parent"
-        android:layout_height="203dp"
+        android:layout_height="188dp"
         android:layout_gravity="top"
         android:scaleType="centerCrop"
         android:src="@drawable/logo" />
@@ -18,7 +20,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="@string/author_name"
-        android:textSize="35sp" />
+        android:textSize="35dp" />
 
     <TextView
         android:id="@+id/your_profile_username"
@@ -26,7 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="@string/nickname"
-        android:textSize="13sp" />
+        android:textSize="13dp" />
 
     <TextView
         android:id="@+id/your_profile_email"
@@ -34,7 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="@string/standart_email"
-        android:textSize="13sp" />
+        android:textSize="13dp" />
 
     <TextView
         android:id="@+id/your_profile_company"
@@ -42,7 +44,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="@string/standart_company"
-        android:textSize="13sp" />
+        android:textSize="13dp" />
 
     <GridLayout
         android:layout_width="wrap_content"
@@ -51,64 +53,65 @@
         android:columnCount="3"
         android:orientation="horizontal"
         android:paddingTop="15dp">
+
         <TextView
+            android:paddingHorizontal="15dp"
+            android:paddingVertical="3dp"
             android:text="@string/gists_count_text"
-            android:textSize="15sp"
-            android:textStyle="bold"
-            android:paddingHorizontal="15dp"
-            android:paddingVertical="3dp"
-            />
+            android:textSize="15dp"
+            android:textStyle="bold" />
+
         <TextView
-            android:text="@string/private_repos_text"
-            android:textSize="15sp"
-            android:textStyle="bold"
             android:paddingHorizontal="15dp"
             android:paddingVertical="3dp"
+            android:text="@string/private_repos_text"
+            android:textSize="15dp"
+            android:textStyle="bold"
 
             />
+
         <TextView
+            android:paddingHorizontal="15dp"
+            android:paddingVertical="3dp"
             android:text="@string/owned_repos_text"
-            android:textSize="15sp"
-            android:textStyle="bold"
-            android:paddingHorizontal="15dp"
-            android:paddingVertical="3dp"
-            />
+            android:textSize="15dp"
+            android:textStyle="bold" />
+
         <TextView
-            android:text="@string/_45"
-            android:layout_gravity="center"
-            android:textSize="25sp"
-            android:textStyle="bold"
-            android:paddingHorizontal="15dp"
-            android:paddingVertical="3dp"
             android:id="@+id/gists_count_id"
-            />
-        <TextView
-            android:text="@string/_2"
             android:layout_gravity="center"
-            android:textSize="25sp"
-            android:textStyle="bold"
             android:paddingHorizontal="15dp"
             android:paddingVertical="3dp"
+            android:text="@string/_45"
+            android:textSize="25dp"
+            android:textStyle="bold" />
+
+        <TextView
             android:id="@+id/private_count_id"
-            />
-        <TextView
-            android:text="@string/_52"
             android:layout_gravity="center"
-            android:textSize="25sp"
-            android:textStyle="bold"
             android:paddingHorizontal="15dp"
             android:paddingVertical="3dp"
+            android:text="@string/_2"
+            android:textSize="25dp"
+            android:textStyle="bold" />
+
+        <TextView
             android:id="@+id/owned_count_id"
-            />
+            android:layout_gravity="center"
+            android:paddingHorizontal="15dp"
+            android:paddingVertical="3dp"
+            android:text="@string/_52"
+            android:textSize="25dp"
+            android:textStyle="bold" />
     </GridLayout>
 
     <Button
-        android:layout_marginTop="20dp"
-        android:layout_marginHorizontal="25dp"
-        android:textSize="15sp"
+        android:id="@+id/go_to_repos_button"
         android:layout_width="match_parent"
-        android:layout_height="75dp"
+        android:layout_height="62dp"
+        android:layout_marginHorizontal="25dp"
+        android:layout_marginTop="20dp"
         android:text="@string/go_to_repos_list_text"
-        android:id="@+id/go_to_repos_button"/>
+        android:textSize="15dp" />
 
 </LinearLayout>

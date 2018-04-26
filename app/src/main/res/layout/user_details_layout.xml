@@ -7,7 +7,7 @@
     <ImageView
         android:id="@+id/detailed_profile_image"
         android:layout_width="match_parent"
-        android:layout_height="319dp"
+        android:layout_height="314dp"
         android:layout_gravity="top"
         android:scaleType="centerCrop"
         android:src="@drawable/logo" />
