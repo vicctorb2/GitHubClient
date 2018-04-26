@@ -6,6 +6,7 @@ import com.vburak.githubclient.model.GitHubUserResponse;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface Service {
@@ -19,5 +20,8 @@ public interface Service {
 
     @GET("/user")
     Call<GitHubUser> mainUser(@Header("Authorization") String authHeader);
+
+    @GET("/users/{username}")
+    Call<GitHubUser> getSingleUser(@Header("Authorization") String authHeader, @Path("username") String username);
 
 }

@@ -1,6 +1,7 @@
 package com.vburak.githubclient;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,15 +13,26 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
+import com.vburak.githubclient.api.Client;
+import com.vburak.githubclient.api.Service;
 import com.vburak.githubclient.model.GitHubUser;
+import com.vburak.githubclient.model.GitHubUserResponse;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import static com.vburak.githubclient.MainActivity.authHeader;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.CustomViewHolder> {
 
     Context mContext;
     List<GitHubUser> mData;
     UsersListFragment usersListFragment = new UsersListFragment();
+    GitHubUser detailedUser;
 
     public RecyclerViewAdapter(Context mContext, List<GitHubUser> mData) {
         if(mData==null){
@@ -47,7 +59,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CustomViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull CustomViewHolder holder, final int position) {
         if (position == mData.size()) {
             holder.loadMoreButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -59,7 +71,41 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             holder.usernameTV.setText(mData.get(position).getUsername());
             holder.accountLinkTV.setText(mData.get(position).getUserAccountLink());
             Picasso.with(mContext).load(mData.get(position).getImage()).placeholder(R.drawable.logo).into(holder.img);
+            holder.usernameTV.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    GitHubUser detailedUser = mData.get(position);
+                    getFullInfoAndStartActivity(detailedUser.getUsername());
+                }
+            });
         }
+    }
+
+
+    private void getFullInfoAndStartActivity(String username){
+        Service apiService = Client.getClient().create(Service.class);
+        Call<GitHubUser> call = apiService.getSingleUser(authHeader, username);
+        call.enqueue(new Callback<GitHubUser>() {
+            @Override
+            public void onResponse(Call<GitHubUser> call, Response<GitHubUser> response) {
+                try {
+                    if (response.isSuccessful() && response.code() != 403) {
+                        detailedUser = response.body();
+                        Intent intent = new Intent(mContext,UserDetails.class);
+                        intent.putExtra("detailedUser",detailedUser);
+                        mContext.startActivity(intent);
+                    }
+                } catch (NullPointerException ex) {
+                    ex.printStackTrace();
+
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<GitHubUser> call, Throwable t) {
+            }
+        });
     }
 
     @Override

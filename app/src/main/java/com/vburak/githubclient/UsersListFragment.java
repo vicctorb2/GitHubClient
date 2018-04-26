@@ -91,6 +91,26 @@ public class UsersListFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+//        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+//            @Override
+//            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+//                super.onScrollStateChanged(recyclerView, newState);
+//
+//                int lastvisibleitemposition = recyclerView.getLayoutManager().findLastVisibleItemPosition();
+//
+//                if (lastvisibleitemposition == recyclerViewAdapter.getItemCount() - 1) {
+//
+//                    if (!loading && !isLastPage) {
+//
+//                        loading = true;
+//                        fetchData((++pageCount));
+//                        // Увеличиваем на 1 pagecount при каждой прокрутке для получения данных со следующей страницы
+//                        // make loading = false после загрузки данных
+//                        // Вызовите mAdapter.notifyDataSetChanged (), чтобы обновить адаптер и макет
+//                    }
+//                }
+//            }
+//        });
     }
 
 }
