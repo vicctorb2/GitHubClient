@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -25,7 +26,7 @@ import retrofit2.Response;
 
 import static com.vburak.githubclient.MainActivity.authHeader;
 
-public class UsersListFragment extends Fragment {
+public class UsersListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
     View view;
     protected static RecyclerView recyclerView;
@@ -38,6 +39,7 @@ public class UsersListFragment extends Fragment {
     static RecyclerViewAdapter filteredViewAdapter;
     static boolean loading;
     static ProgressBar progressBar;
+    private static SwipeRefreshLayout swipeRefreshLayout;
 
 
     public UsersListFragment() {
@@ -88,6 +90,8 @@ public class UsersListFragment extends Fragment {
 
     private void initUI() {
         progressBar = view.findViewById(R.id.progressBar);
+        swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
+        swipeRefreshLayout.setOnRefreshListener(this);
         gitHubUsersList = new ArrayList<>();
         filteredUsersList = new ArrayList<>();
         recyclerViewAdapter = new RecyclerViewAdapter(getContext(), gitHubUsersList);
@@ -118,4 +122,11 @@ public class UsersListFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
+    @Override
+    public void onRefresh() {
+        gitHubUsersList.clear();
+        currentJsonResponsePage=1;
+        loadJSONfromAPI();
+        swipeRefreshLayout.setRefreshing(false);
+    }
 }
