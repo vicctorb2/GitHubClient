@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.vburak.githubclient.api.Client;
 import com.vburak.githubclient.api.Service;
@@ -36,6 +37,7 @@ public class UsersListFragment extends Fragment {
     static RecyclerViewAdapter recyclerViewAdapter;
     static RecyclerViewAdapter filteredViewAdapter;
     static boolean loading;
+    static ProgressBar progressBar;
 
 
     public UsersListFragment() {
@@ -53,6 +55,7 @@ public class UsersListFragment extends Fragment {
     }
 
     public static void loadJSONfromAPI() {
+        progressBar.setVisibility(ProgressBar.VISIBLE);
         apiService = Client.getClient().create(Service.class);
         Call<GitHubUserResponse> call = apiService.getUsers(authHeader, currentJsonResponsePage, usersPerPage);
         call.enqueue(new Callback<GitHubUserResponse>() {
@@ -66,6 +69,7 @@ public class UsersListFragment extends Fragment {
                         recyclerView.scrollToPosition(gitHubUsersList.size() - responseItemsList.size() - 1);
                         currentJsonResponsePage++;
                         loading=false;
+                        progressBar.setVisibility(ProgressBar.INVISIBLE);
                     }
                 } catch (NullPointerException ex) {
                     ex.printStackTrace();
@@ -83,6 +87,7 @@ public class UsersListFragment extends Fragment {
     }
 
     private void initUI() {
+        progressBar = view.findViewById(R.id.progressBar);
         gitHubUsersList = new ArrayList<>();
         filteredUsersList = new ArrayList<>();
         recyclerViewAdapter = new RecyclerViewAdapter(getContext(), gitHubUsersList);
