@@ -2,6 +2,9 @@ package com.vburak.githubclient.api;
 
 import com.vburak.githubclient.model.GitHubUser;
 import com.vburak.githubclient.model.GitHubUserResponse;
+import com.vburak.githubclient.model.Repository;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -23,5 +26,11 @@ public interface Service {
 
     @GET("/users/{username}")
     Call<GitHubUser> getSingleUser(@Header("Authorization") String authHeader, @Path("username") String username);
+
+    @GET("/user/repos")
+    Call<List<Repository>> getMyRepos(@Header("Authorization") String authHeader);
+
+    @GET("/users/{username}/repos")
+    Call<List<Repository>> getUserRepos(@Header("Authorization") String authHeader, @Path("username") String username);
 
 }

@@ -36,5 +36,10 @@
                 <action android:name="android.intent.action.DETAILS"/>
             </intent-filter>
         </activity>
+        <activity android:name=".view.RepositoriesActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.REPOSLIST"/>
+            </intent-filter>
+        </activity>
     </application>
 </manifest>

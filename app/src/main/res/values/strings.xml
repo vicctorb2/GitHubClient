@@ -14,4 +14,6 @@
     <string name="_2">2</string>
     <string name="_52">52</string>
     <string name="go_to_repos_list_text">Go to repositories</string>
+    <string name="repo_description_text">description</string>
+    <string name="repo_name_text">repo_name</string>
 </resources>

@@ -8,6 +8,7 @@ import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.vburak.githubclient.R;
@@ -25,6 +26,7 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
     EditText usernameET;
     EditText passwordET;
     Button sigInButton;
+    ProgressBar progressBar;
     private static Service apiService;
 
     @Override
@@ -34,6 +36,7 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
         usernameET = (EditText) findViewById(R.id.username);
         passwordET = (EditText) findViewById(R.id.password);
         sigInButton = (Button) findViewById(R.id.button_sign_in);
+        progressBar = (ProgressBar) findViewById(R.id.progressBarAuth);
         sigInButton.setOnClickListener(this);
     }
 
@@ -48,6 +51,7 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
 
     private void tryToSignIn() {
         if (!usernameET.getText().toString().equals("") && !passwordET.getText().toString().equals("")) {
+            progressBar.setVisibility(View.VISIBLE);
             final String username = usernameET.getText().toString();
             final String password = passwordET.getText().toString();
             String base = username + ":" + password;
@@ -64,6 +68,7 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
                         intent.putExtra("username", username);
                         intent.putExtra("mainUser",mainUser);
                         setResult(RESULT_OK, intent);
+                        progressBar.setVisibility(View.INVISIBLE);
                         finish();
                         Toast.makeText(getApplicationContext(),"Welcome!",Toast.LENGTH_LONG).show();
                     }

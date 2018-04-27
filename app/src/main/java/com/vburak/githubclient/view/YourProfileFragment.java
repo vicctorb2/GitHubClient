@@ -1,18 +1,34 @@
 package com.vburak.githubclient.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.vburak.githubclient.R;
+import com.vburak.githubclient.api.Client;
+import com.vburak.githubclient.api.Service;
 import com.vburak.githubclient.model.GitHubUser;
+import com.vburak.githubclient.model.GitHubUserResponse;
+import com.vburak.githubclient.model.Repository;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import static com.vburak.githubclient.view.MainActivity.authHeader;
 import static com.vburak.githubclient.view.MainActivity.getMainUser;
 
 public class YourProfileFragment extends Fragment {
@@ -27,6 +43,11 @@ public class YourProfileFragment extends Fragment {
     TextView ownedReposTV;
     ImageView imageView;
     GitHubUser mainUser;
+    Button goToReposButton;
+
+
+
+    List<Repository> repositories;
 
     public YourProfileFragment() {
     }
@@ -49,7 +70,7 @@ public class YourProfileFragment extends Fragment {
         privateReposCountTV = (TextView) view.findViewById(R.id.private_count_id);
         gistsCountTV = (TextView) view.findViewById(R.id.gists_count_id);
         ownedReposTV = (TextView) view.findViewById(R.id.owned_count_id);
-
+        goToReposButton = (Button) view.findViewById(R.id.go_to_repos_button);
         Picasso.with(getContext())
                 .load(mainUser.getImage())
                 .placeholder(R.drawable.logo)
@@ -66,5 +87,31 @@ public class YourProfileFragment extends Fragment {
         gistsCountTV.setText(String.valueOf(mainUser.getGistsCount()));
         ownedReposTV.setText(String.valueOf(mainUser.getOwnedPrivateReposCount()));
 
+        goToReposButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Service apiService = Client.getClient().create(Service.class);
+                Call<List<Repository>> call = apiService.getMyRepos(authHeader);
+                call.enqueue(new Callback<List<Repository>>() {
+                    @Override
+                    public void onResponse(Call<List<Repository>> call, Response<List<Repository>> response) {
+
+                        ArrayList<Repository> repositories = new ArrayList<>(response.body());
+                        Intent intent = new Intent(getActivity(),RepositoriesActivity.class);
+                        intent.putExtra("data",repositories);
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<Repository>> call, Throwable t) {
+
+                    }
+                });
+            }
+        });
+    }
+
+    public List<Repository> getRepositories() {
+        return repositories;
     }
 }
