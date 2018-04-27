@@ -1,14 +1,19 @@
 package com.vburak.githubclient.view;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.vburak.githubclient.R;
@@ -27,17 +32,29 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
     EditText passwordET;
     Button sigInButton;
     ProgressBar progressBar;
+    RelativeLayout root;
     private static Service apiService;
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.auth_activity);
+        root = (RelativeLayout) findViewById(R.id.root_layout_auth);
         usernameET = (EditText) findViewById(R.id.username);
         passwordET = (EditText) findViewById(R.id.password);
         sigInButton = (Button) findViewById(R.id.button_sign_in);
         progressBar = (ProgressBar) findViewById(R.id.progressBarAuth);
         sigInButton.setOnClickListener(this);
+        root.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (v.getId()!=R.id.username && v.getId()!=R.id.password){
+                    hideKeyboard();
+                }
+                return false;
+            }
+        });
     }
 
     @Override
@@ -47,6 +64,11 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
                 tryToSignIn();
                 break;
         }
+    }
+
+    private void hideKeyboard() {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(), 0);
     }
 
     private void tryToSignIn() {
