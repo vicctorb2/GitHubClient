@@ -96,6 +96,7 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
                     }
                     else {
                         Toast.makeText(getApplicationContext(),"Username or password is incorrect!",Toast.LENGTH_LONG).show();
+                        progressBar.setVisibility(View.INVISIBLE);
                     }
                 }
 
