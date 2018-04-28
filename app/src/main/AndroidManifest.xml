@@ -10,7 +10,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.vburak.githubclient.view.MainActivity">
+        <activity android:name="com.vburak.githubclient.view.MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -27,22 +28,26 @@
                     android:scheme="vburak" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.AuthActivity">
+        <activity android:name=".view.AuthActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.AUTH"/>
             </intent-filter>
         </activity>
-        <activity android:name=".view.UserDetails">
+        <activity android:name=".view.UserDetails"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.DETAILS"/>
             </intent-filter>
         </activity>
-        <activity android:name=".view.RepositoriesActivity">
+        <activity android:name=".view.RepositoriesActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.REPOSLIST"/>
             </intent-filter>
         </activity>
-        <activity android:name=".view.EditProfileActivity">
+        <activity android:name=".view.EditProfileActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.EDIT_PROFILE"/>
             </intent-filter>
