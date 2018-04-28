@@ -46,20 +46,29 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //starting authorization activity and eaiting for result
         Intent intent = new Intent(this, AuthActivity.class);
         startActivityForResult(intent, 1);
     }
 
+
+    //when result presents initialize UI
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+        //user auth params from AUTH intent
         authHeader = data.getStringExtra("authHeader");
         username = data.getStringExtra("username");
         mainUser = data.getParcelableExtra("mainUser");
+
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         tabLayout = (TabLayout) findViewById(R.id.tablayout_id);
         viewPager = (ViewPager) findViewById(R.id.viewpager_id);
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+
+        //tabs setting
         adapter.addFragment(new YourProfileFragment(), "Your profile");
         adapter.addFragment(new UsersListFragment(), "Users list");
         viewPager.setAdapter(adapter);
@@ -67,6 +76,8 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         setSupportActionBar(toolbar);
     }
 
+
+    //menu (search items) creating
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_items, menu);

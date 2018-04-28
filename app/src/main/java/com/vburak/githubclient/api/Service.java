@@ -7,11 +7,13 @@ import com.vburak.githubclient.model.Repository;
 import java.util.List;
 
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.PATCH;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
-
+/** GitHub api service declaration**/
 public interface Service {
 
 
@@ -32,5 +34,8 @@ public interface Service {
 
     @GET("/users/{username}/repos")
     Call<List<Repository>> getUserRepos(@Header("Authorization") String authHeader, @Path("username") String username);
+
+    @PATCH("/user")
+    GitHubUser updateUserProfile(@Header("Authorization") String authHeader, @Body GitHubUser user);
 
 }

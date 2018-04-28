@@ -11,16 +11,17 @@ import com.nhaarman.listviewanimations.appearance.simple.SwingRightInAnimationAd
 import com.vburak.githubclient.model.Repository;
 
 import java.util.List;
-
+/** List activity with custom animation for illustarte the list of user reposittories**/
 public class RepositoriesActivity extends ListActivity {
 
-
-    ImageView avatar;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //trying to get user from intent parcelable data
         List<Repository> data = (List<Repository>) getIntent().getSerializableExtra("data");
+        //custom animation for repos list
         SwingRightInAnimationAdapter swingBottomInAdapter = new SwingRightInAnimationAdapter(new ReposListAdapter(getBaseContext(), data));
         swingBottomInAdapter.setAbsListView(getListView());
         getListView().setAdapter(swingBottomInAdapter);

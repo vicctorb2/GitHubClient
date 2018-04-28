@@ -14,7 +14,7 @@ import com.vburak.githubclient.R;
 import com.vburak.githubclient.model.Repository;
 
 import java.util.List;
-
+/**Adapter for repositories list view**/
 public class ReposListAdapter extends BaseAdapter {
 
 
@@ -47,11 +47,16 @@ public class ReposListAdapter extends BaseAdapter {
             convertView = LayoutInflater.from(mContext).inflate(R.layout.repo_item, parent, false);
             TextView name = convertView.findViewById(R.id.repo_name_id);
             TextView description = convertView.findViewById(R.id.repo_description_id);
+
+            //Button (link) to go to the browser for watching user's profile
             final ImageButton goToBrowser = convertView.findViewById(R.id.open_in_browser);
             goToBrowser.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
+                    //starting browser activity
                     Intent intent = new Intent(Intent.ACTION_VIEW);
+                    //setiing url data for intent
                     intent.setData(Uri.parse(mData.get(position).getUrl()));
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     mContext.startActivity(intent);

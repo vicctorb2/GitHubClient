@@ -4,7 +4,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
-
+/** Repository model, gson converter annotations**/
 public class Repository implements Serializable {
 
     @SerializedName("name")

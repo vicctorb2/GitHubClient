@@ -24,6 +24,8 @@ import retrofit2.Response;
 
 import static com.vburak.githubclient.view.MainActivity.authHeader;
 
+
+/** An adapter for usersList recycler view**/
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.CustomViewHolder> {
 
     Context mContext;
@@ -55,9 +57,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.usernameTV.setText(mData.get(position).getUsername());
         holder.accountLinkTV.setText(mData.get(position).getUserAccountLink());
         Picasso.with(mContext).load(mData.get(position).getImage()).placeholder(R.drawable.logo).into(holder.img);
+
+        //setting on click listener for showing the detailed info of the user
         View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //gets the user
                 GitHubUser detailedUser = mData.get(position);
                 getFullInfoAndStartActivity(detailedUser.getUsername());
             }
@@ -66,7 +71,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     }
 
-
+    //this method gets full info of detailed user using the username and starts the activity to show info
     private void getFullInfoAndStartActivity(String username) {
         Service apiService = Client.getClient().create(Service.class);
         Call<GitHubUser> call = apiService.getSingleUser(authHeader, username);

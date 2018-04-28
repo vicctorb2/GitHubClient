@@ -25,7 +25,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.vburak.githubclient.view.MainActivity.authHeader;
-
+/** User detailed info activity**/
 public class UserDetails extends Activity {
 
     View view;
@@ -46,6 +46,8 @@ public class UserDetails extends Activity {
         initUI();
     }
 
+
+    //UI initializaton
     private void initUI() {
         detailedUser = getIntent().getParcelableExtra("detailedUser");
         usernameTV = (TextView) findViewById(R.id.detailed_username);
@@ -72,7 +74,7 @@ public class UserDetails extends Activity {
         if (detailedUser.getCompany()!=null){
             companyTV.setText(detailedUser.getCompany());
         }
-
+        //binding listener to get repos list from api and go to the repositories activity
         goToReposButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -83,7 +85,9 @@ public class UserDetails extends Activity {
                     public void onResponse(Call<List<Repository>> call, Response<List<Repository>> response) {
                         ArrayList<Repository> repositories = new ArrayList<>(response.body());
                         Intent intent = new Intent(getApplicationContext(),RepositoriesActivity.class);
+                        //set data for intent containing all repositories of the user
                         intent.putExtra("data",repositories);
+                        //starting repos activity
                         startActivity(intent);
                     }
 

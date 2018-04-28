@@ -9,6 +9,9 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.Objects;
 
+
+/** GitHub user parcelable model, contains all required fields. Gson annotation for parsing JSON**/
+
 public class GitHubUser implements Parcelable {
 
     @SerializedName("login")

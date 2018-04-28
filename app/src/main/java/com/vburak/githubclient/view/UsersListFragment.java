@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.vburak.githubclient.R;
 import com.vburak.githubclient.api.Client;
@@ -38,8 +39,12 @@ public class UsersListFragment extends Fragment implements SwipeRefreshLayout.On
     private static int usersPerPage = 50;
     static RecyclerViewAdapter recyclerViewAdapter;
     static RecyclerViewAdapter filteredViewAdapter;
+
+    //flag for demonstrate is our call still pending to github api
     static boolean loading;
     static ProgressBar progressBar;
+
+    //pul to refresh component
     private static SwipeRefreshLayout swipeRefreshLayout;
 
 
@@ -53,13 +58,18 @@ public class UsersListFragment extends Fragment implements SwipeRefreshLayout.On
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         view = inflater.inflate(R.layout.userslist_fragment, container, false);
         initUI();
-        loadJSONfromAPI();
+        //loading users list
+        loadAllUsersList();
         return view;
     }
 
-    public static void loadJSONfromAPI() {
+
+    //loads the users list from github api with pagination
+    //current page of response and how man users on it setted through @params (currentJsonResponsePage, usersPerPage)
+    public static void loadAllUsersList() {
         progressBar.setVisibility(ProgressBar.VISIBLE);
         apiService = Client.getClient().create(Service.class);
+
         Call<GitHubUserResponse> call = apiService.getUsers(authHeader, currentJsonResponsePage, usersPerPage);
         call.enqueue(new Callback<GitHubUserResponse>() {
             @Override
@@ -70,6 +80,7 @@ public class UsersListFragment extends Fragment implements SwipeRefreshLayout.On
                         gitHubUsersList.addAll(responseItemsList);
                         recyclerView.setAdapter(recyclerViewAdapter);
                         recyclerView.scrollToPosition(gitHubUsersList.size() - responseItemsList.size() - 1);
+                        //incrementing current json response page
                         currentJsonResponsePage++;
                         loading=false;
                         progressBar.setVisibility(ProgressBar.INVISIBLE);
@@ -84,11 +95,11 @@ public class UsersListFragment extends Fragment implements SwipeRefreshLayout.On
 
             @Override
             public void onFailure(Call<GitHubUserResponse> call, Throwable t) {
+                progressBar.setVisibility(ProgressBar.INVISIBLE);
             }
         });
-
     }
-
+    //initialization of UI components and setting recycler view listener for pagination
     private void initUI() {
         progressBar = view.findViewById(R.id.progressBar);
         swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
@@ -100,6 +111,8 @@ public class UsersListFragment extends Fragment implements SwipeRefreshLayout.On
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view_id);
         final LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(mLayoutManager);
+
+        //for pagination when scrolled list of users to the end
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
@@ -111,7 +124,7 @@ public class UsersListFragment extends Fragment implements SwipeRefreshLayout.On
 
                     if (!loading) {
                         loading = true;
-                        loadJSONfromAPI();
+                        loadAllUsersList();
                     }
                 }
             }
@@ -127,7 +140,7 @@ public class UsersListFragment extends Fragment implements SwipeRefreshLayout.On
     public void onRefresh() {
         gitHubUsersList.clear();
         currentJsonResponsePage=1;
-        loadJSONfromAPI();
+        loadAllUsersList();
         swipeRefreshLayout.setRefreshing(false);
     }
 }

@@ -31,6 +31,8 @@ import retrofit2.Response;
 import static com.vburak.githubclient.view.MainActivity.authHeader;
 import static com.vburak.githubclient.view.MainActivity.getMainUser;
 
+
+/**  Fragment for main activity, which contain logged user profile information**/
 public class YourProfileFragment extends Fragment {
 
     View view;
@@ -46,7 +48,7 @@ public class YourProfileFragment extends Fragment {
     Button goToReposButton;
 
 
-
+    /** List of repositories of your profile**/
     List<Repository> repositories;
 
     public YourProfileFragment() {
@@ -56,11 +58,15 @@ public class YourProfileFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.yourprofile_fragment,container,false);
+
+        //getting main user from MainActivity
         mainUser = getMainUser();
         initUI();
         return view;
     }
 
+
+    /** GUI initialization,setting all required fields and onClickLsteners**/
     private void initUI() {
         usernameTV = (TextView) view.findViewById(R.id.your_profile_username);
         nameTV = (TextView) view.findViewById(R.id.your_profile_name);
@@ -96,6 +102,7 @@ public class YourProfileFragment extends Fragment {
                     @Override
                     public void onResponse(Call<List<Repository>> call, Response<List<Repository>> response) {
 
+                        // getting repositories of your profile list and starting the intent which shows an activity with repos
                         ArrayList<Repository> repositories = new ArrayList<>(response.body());
                         Intent intent = new Intent(getActivity(),RepositoriesActivity.class);
                         intent.putExtra("data",repositories);
