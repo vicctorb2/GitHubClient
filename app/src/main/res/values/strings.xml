@@ -16,4 +16,11 @@
     <string name="go_to_repos_list_text">Go to repositories</string>
     <string name="repo_description_text">description</string>
     <string name="repo_name_text">repo_name</string>
+    <string name="edit_profile_text">edit profile</string>
+    <string name="username_edit_text">New name</string>
+    <string name="company_edit_text">New company name</string>
+    <string name="location_edit_text">New location</string>
+    <string name="email_edit_text">New e-mail</string>
+    <string name="edit_profile_title">Edit your profile there!</string>
+    <string name="submit">submit</string>
 </resources>

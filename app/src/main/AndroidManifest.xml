@@ -41,5 +41,10 @@
                 <action android:name="android.intent.action.REPOSLIST"/>
             </intent-filter>
         </activity>
+        <activity android:name=".view.EditProfileActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.EDIT_PROFILE"/>
+            </intent-filter>
+        </activity>
     </application>
 </manifest>

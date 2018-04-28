@@ -34,6 +34,10 @@ public class GitHubUser implements Parcelable {
     @Expose
     private String email;
 
+    @SerializedName("location")
+    @Expose
+    private String location;
+
     @SerializedName("company")
     @Expose
     private String company;
@@ -62,7 +66,7 @@ public class GitHubUser implements Parcelable {
 
     public GitHubUser(Parcel parcel) {
         Bundle bundle = parcel.readBundle();
-
+        location = bundle.getString("location");
         name = bundle.getString("name");
         username = bundle.getString("username");
         image = bundle.getString("image");
@@ -73,6 +77,16 @@ public class GitHubUser implements Parcelable {
         gistsCount = bundle.getInt("gistsCount");
         privateReposCount = bundle.getInt("privateReposCount");
         ownedPrivateReposCount = bundle.getInt("ownedPrivateReposCount");
+    }
+
+
+    //getters and setters
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     public String getName() {
@@ -169,6 +183,7 @@ public class GitHubUser implements Parcelable {
                 Objects.equals(userAccountLink, that.userAccountLink) &&
                 Objects.equals(name, that.name) &&
                 Objects.equals(email, that.email) &&
+                Objects.equals(location, that.location) &&
                 Objects.equals(company, that.company) &&
                 Objects.equals(reposUrl, that.reposUrl);
     }
@@ -187,6 +202,7 @@ public class GitHubUser implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         Bundle bundle = new Bundle();
+        bundle.putString("location",location);
         bundle.putString("company",company);
         bundle.putString("email",email);
         bundle.putString("reposUrl",reposUrl);

@@ -36,6 +36,6 @@ public interface Service {
     Call<List<Repository>> getUserRepos(@Header("Authorization") String authHeader, @Path("username") String username);
 
     @PATCH("/user")
-    GitHubUser updateUserProfile(@Header("Authorization") String authHeader, @Body GitHubUser user);
+    Call<GitHubUser> updateUserProfile(@Header("Authorization") String authHeader, @Body GitHubUser user);
 
 }

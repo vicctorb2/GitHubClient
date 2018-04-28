@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.vburak.githubclient.R;
 import com.vburak.githubclient.api.Client;
@@ -82,13 +81,13 @@ public class UsersListFragment extends Fragment implements SwipeRefreshLayout.On
                         recyclerView.scrollToPosition(gitHubUsersList.size() - responseItemsList.size() - 1);
                         //incrementing current json response page
                         currentJsonResponsePage++;
-                        loading=false;
+                        loading = false;
                         progressBar.setVisibility(ProgressBar.INVISIBLE);
                     }
                 } catch (NullPointerException ex) {
                     ex.printStackTrace();
                     recyclerView.setAdapter(recyclerViewAdapter);
-                    loading=false;
+                    loading = false;
                 }
 
             }
@@ -99,6 +98,7 @@ public class UsersListFragment extends Fragment implements SwipeRefreshLayout.On
             }
         });
     }
+
     //initialization of UI components and setting recycler view listener for pagination
     private void initUI() {
         progressBar = view.findViewById(R.id.progressBar);
@@ -136,10 +136,12 @@ public class UsersListFragment extends Fragment implements SwipeRefreshLayout.On
         super.onCreate(savedInstanceState);
     }
 
+
+    //reinitialize GUI
     @Override
     public void onRefresh() {
         gitHubUsersList.clear();
-        currentJsonResponsePage=1;
+        currentJsonResponsePage = 1;
         loadAllUsersList();
         swipeRefreshLayout.setRefreshing(false);
     }

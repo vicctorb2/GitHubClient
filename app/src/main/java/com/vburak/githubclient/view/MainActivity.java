@@ -42,6 +42,10 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         return mainUser;
     }
 
+    public static void setMainUser(GitHubUser mainUser) {
+        MainActivity.mainUser = mainUser;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
